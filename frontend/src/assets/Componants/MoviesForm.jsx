@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import apiClient from "../../config/axiosConfig";
 const MoviesForm = () => {
   let navigate = useNavigate();
   const formik = useFormik({
@@ -41,14 +42,23 @@ const MoviesForm = () => {
     }),
     onSubmit: async (values) => {
       try {
-        console.log("Form values:", values);
-        const response = await axios.post(
-          "https://node-js-revision.onrender.com/api/movies/create",
-          values,
-          {
-            withCredentials: true, // ✅ allows sending/receiving cookies
-          }
-        );
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("description", values.description);
+        formData.append("releaseYear", values.releaseYear);
+        formData.append("genre", values.genre);
+        formData.append("director", values.director);
+        formData.append("rating", values.rating);
+        if (values.image instanceof File) {
+          formData.append("image", values.image); // this is critical
+        }
+
+        const response = await apiClient.post("/movies/create", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // override json content-type
+          },
+          withCredentials: true,
+        });
 
         if (response.status === 200) {
           console.log("✅ Movie created successfully:", response.data);

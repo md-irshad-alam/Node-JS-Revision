@@ -4,24 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MoviesList from "./assets/Componants/MoviesList";
 import { Link, useNavigate } from "react-router-dom";
-
-function ProtectedRoute({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-
-  useEffect(() => {
-    fetch("https://node-js-revision.onrender.com/api/auth/check", {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setIsAuthenticated(data?.authenticated);
-      })
-      .catch(() => setIsAuthenticated(false));
-  }, []);
-
-  if (isAuthenticated === null) return <div>Loading...</div>;
-  return isAuthenticated ? children : <Navigate to="/login" />;
-}
+import apiClient from "./config/axiosConfig";
 
 function App() {
   const navigate = useNavigate();
@@ -32,13 +15,11 @@ function App() {
   };
 
   useEffect(() => {
-    fetch("https://node-js-revision.onrender.com/api/auth/check", {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.authenticated) {
-          setUsername(data?.user?.name);
+    apiClient
+      .get("/auth/check")
+      .then((res) => {
+        if (res.data?.authenticated) {
+          setUsername(res.data?.user?.name);
         }
       })
       .catch(() => {
@@ -59,33 +40,15 @@ function App() {
         <Link to="/">Movies</Link>
         <Link to="/movies">List Movies</Link>
         <div style={{ marginLeft: "auto" }}>
-          {username !== null ? (
-            <span>Welcome, {username}</span>
-          ) : (
-            <button onClick={handleLoginClick}>Login</button>
-          )}
+          <Link to="/login" onClick={handleLoginClick}>
+            Login
+          </Link>
         </div>
       </nav>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              {" "}
-              <MoviesForm />{" "}
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<MoviesForm />} />
         <Route path="/login" element={<Signup />} />
-        <Route
-          path="/movies"
-          element={
-            <ProtectedRoute>
-              {" "}
-              <MoviesList />{" "}
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/movies" element={<MoviesList />} />
       </Routes>
     </>
   );

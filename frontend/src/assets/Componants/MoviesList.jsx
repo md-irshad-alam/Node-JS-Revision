@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import apiClient from "../../config/axiosConfig";
 
 const MoviesList = () => {
   const [movies, setMovies] = useState([]);
@@ -7,17 +8,8 @@ const MoviesList = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await fetch(
-          "https://node-js-revision.onrender.com/api/movies/getAll",
-          {
-            credentials: "include",
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch movies");
-        }
-        const data = await response.json();
-        setMovies(data.movieData);
+        const response = apiClient.get("/movies/getAll");
+        setMovies(response.data.movieData);
       } catch (error) {
         console.error("Error fetching movies:", error);
       } finally {
@@ -29,13 +21,8 @@ const MoviesList = () => {
   }, [loading]);
   const handleDelete = async (movieId) => {
     try {
-      const response = await fetch(
-        `https://node-js-revision.onrender.com/api/movies/delete/${movieId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      const response = await apiClient.delete(`/movies/delete/${movieId}`);
+
       if (!response.ok) {
         throw new Error("Failed to delete movie");
       }
@@ -48,7 +35,6 @@ const MoviesList = () => {
     }
   };
 
-  console.log(movies);
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-center">Movies List</h1>

@@ -1,8 +1,8 @@
 // src/utils/api.js
 import axios from "axios";
-
+// baseURL: "https://node-js-revision.onrender.com/api",
 const apiClient = axios.create({
-  baseURL: "https://dodash.onrender.com/api", // change to your API base
+  baseURL: "http://localhost:5000/api", // change to your API base
   headers: {
     "Content-Type": "application/json",
   },

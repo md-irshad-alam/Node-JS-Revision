@@ -1,16 +1,22 @@
 const jwt = require("jsonwebtoken");
 
 const authmiddleware = async (req, res, next) => {
-  // const token = req.cookies.token; // ✅ get from cookie
-  const token = req.headers.authorization.split(" ")[1];
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
-    return res.status(401).json({ message: "No token provided" });
+  // Check if Authorization header is present and starts with "Bearer "
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ message: "Authorization header missing or invalid" });
   }
 
+  // Extract token from header
+  const token = authHeader.split(" ")[1];
+
   try {
+    // Verify token
     const decoded = jwt.verify(token, "secretKey");
-    req.user = decoded.id;
+    req.user = decoded.id; // or entire decoded object if needed
     next();
   } catch (error) {
     return res

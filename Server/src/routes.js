@@ -126,7 +126,7 @@ moviesRoute.post(
       const { title, description, releaseYear, genre, director, rating } =
         req.body;
       const userId = req.user;
-
+      console.log(req.body);
       const user = await authMode.findById(userId);
       if (!user) return res.send({ message: "user not found" });
       console.log(req);

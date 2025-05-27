@@ -8,15 +8,7 @@ const { route, moviesRoute } = require("./src/routes");
 const port = process.env.PORT || 5000;
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      callback(null, origin || true);
-    },
-    credentials: true,
-  })
-);
-
+app.use(cors());
 const rateLimit = new Map();
 const windowSize = 60 * 1000; // 1 minute
 const maxRequests = 50;

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import apiClient from "../../config/axiosConfig";
 
 const Signup = () => {
   const [error, setError] = useState("");
@@ -27,43 +28,31 @@ const Signup = () => {
       setLoading(true);
       try {
         if (!isloging) {
-          let response = await fetch(
-            "https://node-js-revision.onrender.com/api/auth/register",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(values),
-            }
-          );
+          let response = await apiClient.post("/auth/register", {
+            name: values.name,
+            email: values.email,
+            password: values.password,
+          });
           if (response.ok) {
             setSuccess("Account created successfully");
             setError("");
             formik.resetForm();
             setlogin(true);
           } else {
-            setError(data.message || "Something went wrong");
+            setError(response.data.message || "Something went wrong");
           }
         } else {
-          let response = await fetch(
-            "https://node-js-revision.onrender.com/api/auth/login",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              credentials: "include",
-              body: JSON.stringify(values),
-            }
-          );
+          let response = await apiClient.post("/auth/login", {
+            email: values.email,
+            password: values.password,
+          });
           if (response.ok) {
             console.log(response);
             setSuccess(response.message);
             setError("");
             formik.resetForm();
           } else {
-            setError(data.message || "Something went wrong");
+            setError(response.data.message || "Something went wrong");
           }
         }
       } catch (err) {
