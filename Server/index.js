@@ -5,13 +5,14 @@ const cors = require("cors");
 const app = express();
 const connection = require("./src/config/db");
 const { route, moviesRoute } = require("./src/routes");
-const cookiesParser = require("cookie-parser");
 const port = process.env.PORT || 5000;
 app.use(express.json());
-app.use(cookiesParser());
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      callback(null, origin || true);
+    },
     credentials: true,
   })
 );

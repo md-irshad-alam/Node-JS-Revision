@@ -60,7 +60,6 @@ route.post("/register", async (req, res) => {
 route.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
 
     if (!email || !password) {
       return res.send({ message: "Email and Password are required" });
@@ -76,14 +75,14 @@ route.post("/login", async (req, res) => {
         expiresIn: "1d",
       });
 
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        maxAge: 24 * 60 * 60 * 1000,
-      });
+      // res.cookie("token", token, {
+      //   httpOnly: true,
+      //   secure: true,
+      //   sameSite: "lax",
+      //   maxAge: 24 * 60 * 60 * 1000,
+      // });
 
-      return res.send({ message: "login successful" }); // ✅ prevent next line
+      return res.send({ message: "login successful", token: token }); // ✅ prevent next line
     }
 
     res.send({ message: "Invalid Credential" }); // only runs if password doesn't match
