@@ -8,7 +8,7 @@ const MoviesList = () => {
     const fetchMovies = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/movies/getAll",
+          "https://node-js-revision.onrender.com/api/movies/getAll",
           {
             credentials: "include",
           }
@@ -30,7 +30,7 @@ const MoviesList = () => {
   const handleDelete = async (movieId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/movies/delete/${movieId}`,
+        `https://node-js-revision.onrender.com/api/movies/delete/${movieId}`,
         {
           method: "DELETE",
           credentials: "include",

@@ -9,7 +9,9 @@ function ProtectedRoute({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/auth/check", { credentials: "include" })
+    fetch("https://node-js-revision.onrender.com/api/auth/check", {
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => {
         setIsAuthenticated(data?.authenticated);
@@ -30,7 +32,9 @@ function App() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/auth/check", { credentials: "include" })
+    fetch("https://node-js-revision.onrender.com/api/auth/check", {
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data?.authenticated) {

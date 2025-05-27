@@ -28,7 +28,7 @@ const Signup = () => {
       try {
         if (!isloging) {
           let response = await fetch(
-            "http://localhost:5000/api/auth/register",
+            "https://node-js-revision.onrender.com/api/auth/register",
             {
               method: "POST",
               headers: {
@@ -46,14 +46,17 @@ const Signup = () => {
             setError(data.message || "Something went wrong");
           }
         } else {
-          let response = await fetch("http://localhost:5000/api/auth/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify(values),
-          });
+          let response = await fetch(
+            "https://node-js-revision.onrender.com/api/auth/login",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: "include",
+              body: JSON.stringify(values),
+            }
+          );
           if (response.ok) {
             console.log(response);
             setSuccess(response.message);

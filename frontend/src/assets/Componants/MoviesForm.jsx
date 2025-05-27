@@ -43,7 +43,7 @@ const MoviesForm = () => {
       try {
         console.log("Form values:", values);
         const response = await axios.post(
-          "http://localhost:5000/api/movies/create",
+          "https://node-js-revision.onrender.com/api/movies/create",
           values,
           {
             withCredentials: true, // ✅ allows sending/receiving cookies
