@@ -42,22 +42,9 @@ const MoviesForm = () => {
     }),
     onSubmit: async (values) => {
       try {
-        const formData = new FormData();
-        formData.append("title", values.title);
-        formData.append("description", values.description);
-        formData.append("releaseYear", values.releaseYear);
-        formData.append("genre", values.genre);
-        formData.append("director", values.director);
-        formData.append("rating", values.rating);
-        if (values.image instanceof File) {
-          formData.append("image", values.image); // this is critical
-        }
-
-        const response = await apiClient.post("/movies/create", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data", // override json content-type
-          },
-          withCredentials: true,
+        console.log("Form values:", values);
+        const response = await apiClient.post("/movies/create", {
+          ...values,
         });
 
         if (response.status === 200) {

@@ -46,14 +46,11 @@ const Signup = () => {
             email: values.email,
             password: values.password,
           });
-          if (response.ok) {
-            console.log(response);
-            setSuccess(response.message);
-            setError("");
-            formik.resetForm();
-          } else {
-            setError(response.data.message || "Something went wrong");
-          }
+
+          setSuccess("Login successful");
+          setError("");
+          sessionStorage.setItem("token", response.data.token);
+          navigate("/movies");
         }
       } catch (err) {
         setError("Server error. Please try again.");

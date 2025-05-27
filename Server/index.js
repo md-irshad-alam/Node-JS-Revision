@@ -38,6 +38,7 @@ app.use((req, res, next) => {
     return next();
   }
 });
+
 app.use("/uploads", express.static("uploads"));
 app.use("/api/auth", route);
 app.use("/api/movies", moviesRoute);

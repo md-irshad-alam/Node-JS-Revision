@@ -8,7 +8,7 @@ const MoviesList = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = apiClient.get("/movies/getAll");
+        const response = await apiClient.get("/movies/getAll");
         setMovies(response.data.movieData);
       } catch (error) {
         console.error("Error fetching movies:", error);
