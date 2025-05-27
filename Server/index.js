@@ -3,8 +3,8 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-const connection = require("./config/db");
-const { route, moviesRoute } = require("./routes");
+const connection = require("./src/config/db");
+const { route, moviesRoute } = require("./src/routes");
 const cookiesParser = require("cookie-parser");
 const port = process.env.PORT || 5000;
 app.use(express.json());
