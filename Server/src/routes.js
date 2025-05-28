@@ -93,7 +93,7 @@ route.post("/login", async (req, res) => {
 });
 
 route.get("/check", middleware, async (req, res) => {
-  const token = req.cookies.token;
+  const token = req.headers.authorization.split(" ")[1];
   if (!token) {
     return res.json({ authenticated: false });
   }

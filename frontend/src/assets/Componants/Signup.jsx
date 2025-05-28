@@ -46,11 +46,14 @@ const Signup = () => {
             email: values.email,
             password: values.password,
           });
-
-          setSuccess("Login successful");
-          setError("");
-          sessionStorage.setItem("token", response.data.token);
-          navigate("/movies");
+          console.log(response.data.message);
+          if ((response.data.message = "login successful")) {
+            setSuccess("Login successful");
+            setError("");
+            sessionStorage.setItem("token", response.data.token);
+            window.location.reload();
+            navigate("/movies");
+          }
         }
       } catch (err) {
         setError("Server error. Please try again.");
